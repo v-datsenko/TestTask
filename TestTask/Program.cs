@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApplicationLibrary;
+using System;
 
 namespace TestTask
 {
@@ -6,7 +7,12 @@ namespace TestTask
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Enter site url!");
+            string url = Console.ReadLine();
+            var crawler = new Crawler(url);
+            crawler.StartCrawlerAsync();
+            
+            Console.ReadKey();
         }
     }
 }
