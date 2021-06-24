@@ -31,6 +31,22 @@ namespace TestTask
             {
                 Console.WriteLine(link);
             }
+            var sitemapProvider = new SitemapProvider(crawler.Uri);
+            var sitemapList = sitemapProvider.GetSitemapFromSite();
+
+            if (sitemapList.Count != 0)
+            {
+                Console.WriteLine("\nAll links from sitemap.xml:");
+                foreach (var link in sitemapList)
+                {
+                    Console.WriteLine(link);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Sitemap could not be retrieved!");
+            }
+
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
         }
