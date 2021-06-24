@@ -5,7 +5,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +16,7 @@ namespace ApplicationLibrary
         private IEnumerable<IUriFilter> _filters;
         public ObservableCollection<Uri> FinalUriList;
 
+        public Uri Uri { get { return _uri; } }
         private Queue<Uri> _queueUri;
         private CorrectAbsoluteLinkConverter _correctAbsoluteLinkConverter;
         private Random _random;
