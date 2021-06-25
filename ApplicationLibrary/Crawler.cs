@@ -51,7 +51,6 @@ namespace ApplicationLibrary
                 {
                     Console.Clear();
                     Console.WriteLine("Operation aborted!");
-                    Console.WriteLine("All pages:");
                     return;
                 }
                 var currentUri = _queueUri.Dequeue();
