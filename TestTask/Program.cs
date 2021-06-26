@@ -1,5 +1,7 @@
 ﻿using ApplicationLibrary;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,46 +11,65 @@ namespace TestTask
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter site url!");
-            string url = Console.ReadLine();
-            CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
-            CancellationToken token = cancelTokenSource.Token;
-            var crawler = new Crawler(url, token);
-
-            Task scan = crawler.StartCrawlerAsync();
-            Thread consoleRead = new Thread(() =>
+            try
             {
-                ConsoleKeyInfo key = new ConsoleKeyInfo();
-                while (key.KeyChar != 'c')
+                Console.WriteLine("Enter site url!");
+                string url = Console.ReadLine();
+                CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
+                CancellationToken token = cancelTokenSource.Token;
+                var crawler = new Crawler(url, token);
+
+                Task scan = crawler.StartCrawlerAsync();
+                Thread consoleRead = new Thread(() =>
                 {
-                    key = Console.ReadKey();
-                }
-                cancelTokenSource.Cancel();
-            });
-            consoleRead.Start();
-            scan.Wait();
-            foreach(var link in crawler.FinalUriList)
-            {
-                Console.WriteLine(link);
-            }
-            var sitemapProvider = new SitemapProvider(crawler.Uri);
-            var sitemapList = sitemapProvider.GetSitemapFromSite();
+                    ConsoleKeyInfo key = new ConsoleKeyInfo();
+                    while (key.KeyChar != 'c')
+                    {
+                        key = Console.ReadKey();
+                    }
+                    cancelTokenSource.Cancel();
+                });
+                consoleRead.Start();
+                scan.Wait();
 
-            if (sitemapList.Count != 0)
-            {
-                Console.WriteLine("\nAll links from sitemap.xml:");
-                foreach (var link in sitemapList)
+                List<string> foundLinks = crawler.FinalUriList.Select(u => u.ToString()).ToList();
+                ConsoleRenderer.DisplayList("\nFound available links: ", foundLinks);
+
+                var sitemapProvider = new SitemapProvider(crawler.Uri);
+                List<string> sitemapList = sitemapProvider.GetSitemapFromSite();
+
+                bool sitemap = false;
+                List<string> allLinks;
+                if (sitemapList.Count != 0)
                 {
-                    Console.WriteLine(link);
+                    ConsoleRenderer.DisplayList("\nAll links from sitemap.xml:", sitemapList);
+                    sitemap = true;
+                    allLinks = foundLinks.Union(sitemapList).Distinct().ToList();
                 }
-            }
-            else
-            {
-                Console.WriteLine("Sitemap could not be retrieved!");
-            }
+                else
+                {
+                    allLinks = foundLinks;
+                }
 
-            Console.WriteLine("Press any key to exit!");
-            Console.ReadKey();
+
+                if (sitemap)
+                {
+                    List<string> displayedList = sitemapList.Except(foundLinks, new UrlComparer()).ToList();
+                    ConsoleRenderer.TableWidth = 90;
+                    ConsoleRenderer.AlignFunc = ConsoleRenderer.AlignLeft;
+                    ConsoleRenderer.DisplayListInTable("\nUrls FOUNDED IN SITEMAP.XML but not founded after crawling a web site", new List<string> { "Url" }, new List<string>[] { displayedList });
+
+                    displayedList = foundLinks.Except(sitemapList, new UrlComparer()).ToList();
+                    ConsoleRenderer.DisplayListInTable("\nUrls FOUNDED BY CRAWLING THE WEBSITE but not in sitemap.xml", new List<string> { "Url" }, new List<string>[] { displayedList });
+                }
+
+                Console.WriteLine("Press any key to exit!");
+                Console.ReadKey();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

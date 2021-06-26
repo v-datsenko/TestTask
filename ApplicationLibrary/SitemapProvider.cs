@@ -85,7 +85,7 @@ namespace ApplicationLibrary
             }
             catch (WebException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Sitemap could not be retrieved!");
             }
             return _urlList;
         }
