@@ -71,7 +71,10 @@ namespace TestTask
 
                 ConsoleRenderer.DisplayListInTable("\nTiming", new List<string> { "Url", "Timing (ms)" }, new List<string>[] { allLinks, timingList });
 
-                Console.WriteLine("Press any key to exit!");
+                Console.WriteLine($"\nUrls(html documents) found after crawling a website: {foundLinks.Count}");
+                Console.WriteLine($"Urls found in sitemap: {sitemapList.Count}");
+
+                Console.WriteLine("\nPress any key to exit!");
                 Console.ReadKey();
             }
             catch(Exception ex)
