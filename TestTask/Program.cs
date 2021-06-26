@@ -53,12 +53,12 @@ namespace TestTask
 
             if (sitemap)
             {
-                List<string> displayedList = sitemapList.Except(foundLinks).ToList();
+                List<string> displayedList = sitemapList.Except(foundLinks, new UrlComparer()).ToList();
                 ConsoleRenderer.TableWidth = 90;
                 ConsoleRenderer.AlignFunc = ConsoleRenderer.AlignLeft;
                 ConsoleRenderer.DisplayListInTable("\nUrls FOUNDED IN SITEMAP.XML but not founded after crawling a web site", new List<string> { "Url" }, new List<string>[] { displayedList });
 
-                displayedList = foundLinks.Except(sitemapList).ToList();
+                displayedList = foundLinks.Except(sitemapList, new UrlComparer()).ToList();
                 ConsoleRenderer.DisplayListInTable("\nUrls FOUNDED BY CRAWLING THE WEBSITE but not in sitemap.xml", new List<string> { "Url" }, new List<string>[] { displayedList });
             }
 
