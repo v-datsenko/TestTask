@@ -87,6 +87,9 @@ namespace ApplicationLibrary
             {
                 Console.WriteLine("\nSitemap could not be retrieved!");
             }
+            catch (Exception ex)
+            {
+            }
             return _urlList;
         }
     }

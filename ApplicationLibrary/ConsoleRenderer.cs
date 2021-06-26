@@ -49,7 +49,7 @@ namespace ApplicationLibrary
 
         public static void PrintLine()
         {
-            Console.WriteLine(new string('-', TableWidth));
+            Console.WriteLine(" " + new string('-', TableWidth-1));
         }
 
         public static void PrintRow(int numberLine, params string[] columns)

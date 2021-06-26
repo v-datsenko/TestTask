@@ -56,7 +56,19 @@ namespace ApplicationLibrary
                 var currentUri = _queueUri.Dequeue();
                 try
                 {
-                    var html = await httpClient.GetStringAsync(currentUri);
+                    var taskGetString = httpClient.GetStringAsync(currentUri);
+                    while(taskGetString.Status != TaskStatus.RanToCompletion 
+                        && taskGetString.Status != TaskStatus.Canceled 
+                        && taskGetString.Status != TaskStatus.Faulted)
+                    {
+                        if (_token.IsCancellationRequested)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Operation aborted!");
+                            return;
+                        }
+                    }
+                    var html = taskGetString.Result;
 
                     var htmlDocument = new HtmlDocument();
                     htmlDocument.LoadHtml(html);
@@ -70,14 +82,16 @@ namespace ApplicationLibrary
                         _queueUri.Enqueue(uri);
                     }
                     FinalUriList.Add(currentUri);
-                }catch(HttpRequestException ex)
+                }
+                catch(HttpRequestException ex)
                 {
                     
-                }catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
                 }
-                await Task.Delay(1000);
+                catch(Exception ex)
+                {
+
+                }
+                await Task.Delay(500);
             }
             Console.WriteLine("It's all!");
         }
