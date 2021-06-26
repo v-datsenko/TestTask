@@ -55,13 +55,21 @@ namespace TestTask
                 if (sitemap)
                 {
                     List<string> displayedList = sitemapList.Except(foundLinks, new UrlComparer()).ToList();
-                    ConsoleRenderer.TableWidth = 90;
+                    ConsoleRenderer.TableWidth = 100;
                     ConsoleRenderer.AlignFunc = ConsoleRenderer.AlignLeft;
                     ConsoleRenderer.DisplayListInTable("\nUrls FOUNDED IN SITEMAP.XML but not founded after crawling a web site", new List<string> { "Url" }, new List<string>[] { displayedList });
 
                     displayedList = foundLinks.Except(sitemapList, new UrlComparer()).ToList();
                     ConsoleRenderer.DisplayListInTable("\nUrls FOUNDED BY CRAWLING THE WEBSITE but not in sitemap.xml", new List<string> { "Url" }, new List<string>[] { displayedList });
                 }
+
+                Console.WriteLine("\nServer response time is measured...");
+                UrlTestClient testClient = new UrlTestClient(allLinks);
+                Dictionary<string,long> resultTest = testClient.GetResult();
+
+                List<string> timingList = resultTest.Values.Select(t => $"{t}ms").ToList();
+
+                ConsoleRenderer.DisplayListInTable("\nTiming", new List<string> { "Url", "Timing (ms)" }, new List<string>[] { allLinks, timingList });
 
                 Console.WriteLine("Press any key to exit!");
                 Console.ReadKey();
