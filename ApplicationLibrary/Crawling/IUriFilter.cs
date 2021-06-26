@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ApplicationLibrary
+namespace ApplicationLibrary.Crawling
 {
     public interface IUriFilter
     {

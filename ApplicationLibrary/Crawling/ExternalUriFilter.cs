@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ApplicationLibrary
+namespace ApplicationLibrary.Crawling
 {
     public class ExternalUriFilter : IUriFilter
     {

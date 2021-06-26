@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace ApplicationLibrary
+namespace ApplicationLibrary.FileOutput
 {
     public class FileWriter
     {

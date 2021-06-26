@@ -1,4 +1,8 @@
-﻿using ApplicationLibrary;
+﻿using ApplicationLibrary.ConsoleOutput;
+using ApplicationLibrary.Crawling;
+using ApplicationLibrary.FileOutput;
+using ApplicationLibrary.Network;
+using ApplicationLibrary.Sitemap;
 using System;
 using System.Collections.Generic;
 using System.Linq;

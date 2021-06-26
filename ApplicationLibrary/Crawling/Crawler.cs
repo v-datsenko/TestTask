@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using ApplicationLibrary.Network;
+using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +9,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ApplicationLibrary
+namespace ApplicationLibrary.Crawling
 {
     public class Crawler
     {

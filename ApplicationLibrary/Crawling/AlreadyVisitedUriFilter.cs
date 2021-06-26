@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 
-namespace ApplicationLibrary
+namespace ApplicationLibrary.Crawling
 {
     public class AlreadyVisitedUriFilter : IUriFilter
     {

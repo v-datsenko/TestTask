@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Xml;
 
-namespace ApplicationLibrary
+namespace ApplicationLibrary.Sitemap
 {
     public class SitemapProvider
     {
