@@ -57,10 +57,9 @@ namespace ApplicationLibrary
             int width = (TableWidth - columns.Length) / columns.Length;
             string row = "|";
 
-            foreach (string column in columns)
+            foreach (var (column, index) in columns.Select((value,i) => (value,i)))
             {
-
-                row += numberLine == 0 ? AlignFunc(column, width) + "|" : AlignFunc($"{numberLine}) {column}", width) + "|";
+                row += numberLine != 0 && index != 1 ? AlignFunc($"{numberLine}) {column}", width) + "|" : AlignFunc(column, width) + "|";
             }
 
             Console.WriteLine(row);
