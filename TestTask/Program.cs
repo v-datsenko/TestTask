@@ -100,7 +100,9 @@ namespace TestTask
                 {
                     Console.WriteLine("\nData is written to file...");
 
-                    FileWriter fw = new FileWriter("C:\\Test", "SiteInfo.txt");
+                    string path = System.IO.Directory.GetCurrentDirectory();
+                    string fileName = "SiteInfo.txt";
+                    FileWriter fw = new FileWriter(path, fileName);
                     FileWriter.AlignFunc = ConsoleRenderer.AlignLeft;
 
                     fw.WriteLine($"Site data '{url}'");
@@ -124,6 +126,7 @@ namespace TestTask
                     
                     fw.CloseFile();
                     Console.WriteLine("Data has been successfully written to file!");
+                    Console.WriteLine($"Path: {path}\\{fileName}");
                 }
                 catch(Exception ex)
                 {
