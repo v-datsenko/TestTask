@@ -94,7 +94,8 @@ namespace ApplicationLibrary.Crawling
                 }
                 await Task.Delay(500);
             }
-            Console.WriteLine("It's all!");
+            httpClient.Dispose();
+            Console.WriteLine("Scan completed!");
         }
 
         private void Uri_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

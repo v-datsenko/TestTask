@@ -47,7 +47,6 @@ namespace TestTask
 
                 //Получение списка найденных url на сайте и вывод его на консоль
                 List<string> foundLinks = crawler.FinalUriList.Select(u => u.ToString()).ToList();
-                ConsoleRenderer.DisplayList("\nFound available links: ", foundLinks);
 
                 //Создание объекта SitemapProvider для получения sitemap.xml сайта
                 var sitemapProvider = new SitemapProvider(crawler.Uri);
@@ -58,7 +57,6 @@ namespace TestTask
                 List<string> allLinks;
                 if (sitemapList.Count != 0)
                 {
-                    ConsoleRenderer.DisplayList("\nAll links from sitemap.xml:", sitemapList);
                     sitemap = true;
                     allLinks = foundLinks.Union(sitemapList).Distinct().ToList();
                 }
@@ -106,12 +104,9 @@ namespace TestTask
                     FileWriter.AlignFunc = ConsoleRenderer.AlignLeft;
 
                     fw.WriteLine($"Site data '{url}'");
-                    fw.WriteList("\nFound available links: ", foundLinks);
 
                     if (sitemap)
                     {
-                        fw.WriteList("\nAll links from sitemap.xml:", sitemapList);
-                        
                         FileWriter.TableWidth = listOnlySitemap.Select((str, index) => (str, index)).Max(tuple => tuple.str.Length + tuple.index.ToString().Length) + 6;
                         fw.WriteListInTable("\nUrls FOUNDED IN SITEMAP.XML but not founded after crawling a web site", new List<string> { "Url" }, new List<string>[] { listOnlySitemap });
                     }
@@ -134,8 +129,9 @@ namespace TestTask
                     Console.WriteLine("Error: " + ex.Message);
                 }
 
-                Console.WriteLine("\nPress any key to exit!");
-                Console.ReadKey();
+                Console.WriteLine("\nPress c key to exit!");
+                if(consoleRead.ThreadState != ThreadState.Running)
+                    Console.ReadKey();
             }
             catch(Exception ex)
             {

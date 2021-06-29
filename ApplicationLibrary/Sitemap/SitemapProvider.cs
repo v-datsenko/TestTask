@@ -82,6 +82,7 @@ namespace ApplicationLibrary.Sitemap
                         }
                     }
                 }
+                wc.Dispose();
             }
             catch (WebException ex)
             {
